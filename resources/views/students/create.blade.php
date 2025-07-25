@@ -54,7 +54,7 @@
 
             <div class="col-md-6 fs-6 fw-bold">
                 <label for="major_id">Major</label>
-                <select name="major_id" id="major_id" class="form-control border-primary" required>
+                <select name="major" id="major_id" class="form-control border-primary" required>
                     <option value="">Choose Major</option>
                     @foreach($majors as $major)
                         <option value="{{ $major->id }}" {{ old('major_id') == $major->id ? 'selected' : '' }}>

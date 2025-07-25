@@ -28,26 +28,27 @@ class StudentController extends Controller
     }
 
     // Store a newly created student in storage
-    public function store(Request $request)
-    {
-        $request->validate([
-            'number' => 'required|unique:students,number',
-            'name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female',
-            'year' => 'required',
-            'major' => 'required',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'number' => 'required|unique:students,number',
+        'name' => 'required|string|max:255',
+        'gender' => 'required|in:Male,Female',
+        'year' => 'required|integer',
+        'major' => 'required|integer|exists:majors,id', // validate major as existing major id
+    ]);
 
-        Student::create([
-            'number' => $request->number,
-            'name' => $request->name,
-            'gender' => $request->gender,
-            'year' => $request->year,
-            'major_id' => $request->major,
-        ]);
+    Student::create([
+        'number' => $request->number,
+        'name' => $request->name,
+        'gender' => $request->gender,
+        'year' => $request->year,
+        'major_id' => $request->major, // assign major_id from the major field in request
+    ]);
 
-        return redirect()->route('students.index')->with('success', 'Student created successfully!');
-    }
+    return redirect()->route('students.index')->with('success', 'Student created successfully!');
+}
+
 
     // Display the specified student
     public function show(Student $student)
@@ -70,7 +71,7 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female',
             'year' => 'required|integer|min:1',
-            'major' => 'required|exists:majors,id',
+            'major' => 'required',
         ]);
 
         $student->update([
