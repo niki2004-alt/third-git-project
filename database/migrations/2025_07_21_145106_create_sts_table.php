@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sts', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
              $table->id(); // Auto-increment ID
 
             $table->string('number')->unique(); // Student registration number
@@ -34,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sts');
+        Schema::dropIfExists('students');
+
     }
 };

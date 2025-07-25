@@ -10,7 +10,9 @@ class Student extends Model
     use HasFactory;
 
     // Specify the table name explicitly
-    protected $table = 'sts';
+    // Remove this line entirely OR explicitly set:
+protected $table = 'students';
+
 
     protected $fillable = [
         'number',

@@ -34,8 +34,8 @@ class StudentController extends Controller
             'number' => 'required|unique:students,number',
             'name' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female',
-            'year' => 'required|integer|min:1',
-            'major' => 'required|exists:majors,id',
+            'year' => 'required',
+            'major' => 'required',
         ]);
 
         Student::create([
