@@ -17,15 +17,23 @@ class StudentController extends Controller
 
     // Show the form for creating a new student
     public function create()
-    {
-        $majors = Major::all();
+{
 
-        // Generate a new student number like STU001, STU002...
-        $lastStudent = Student::orderBy('id', 'desc')->first();
-        $newNumber = $lastStudent ? 'STU' . str_pad($lastStudent->id + 1, 3, '0', STR_PAD_LEFT) : 'STU001';
+    // Get the last student record ordered by id desc
+    $lastStudent = Student::orderBy('id', 'desc')->first();
 
-        return view('students.create', compact('majors', 'newNumber'));
+    if (!$lastStudent) {
+        // No student yet, start with STU001
+        $newNumber = 'STU001';
+    } else {
+        // Extract the numeric part from last student's number
+        $lastNumber = (int) str_replace('STU', '', $lastStudent->number);
+        $newNumber = 'STU' . str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
     }
+        $majors = Major::all();
+    return view('students.create', compact('newNumber', 'majors'));
+}
+
 
     // Store a newly created student in storage
    public function store(Request $request)
@@ -85,4 +93,11 @@ class StudentController extends Controller
     }
 
     // Remove the specified
+    // Remove the specified student from storage
+public function destroy(Student $student)
+{
+    $student->delete();
+    return redirect()->route('students.index')->with('success', 'Student deleted successfully!');
+}
+
 }
